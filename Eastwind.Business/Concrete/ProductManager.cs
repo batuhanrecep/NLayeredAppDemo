@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Eastwind.DataAccess.Concrete;
+using Eastwind.DataAccess.Abstract;
+using Eastwind.DataAccess.Concrete.EntityFramework;
 using Eastwind.Entities.Concrete;
 
 namespace Eastwind.Business.Concrete
@@ -11,8 +12,14 @@ namespace Eastwind.Business.Concrete
     public class ProductManager
     {
         //As a best practice, one layer should not use new statement for another 
-        
-        ProductDal _productDal = new ProductDal();
+
+        private IProductDal _productDal;
+
+        public ProductManager(IProductDal productDal)
+        {
+            _productDal = productDal;
+        }
+
         public List<Product> GetAll()
         {
             //Business Code
