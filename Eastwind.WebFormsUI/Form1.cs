@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Eastwind.Business.Concrete;
 
 namespace Eastwind.WebFormsUI
 {
@@ -15,6 +16,12 @@ namespace Eastwind.WebFormsUI
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            ProductManager productManager = new ProductManager();
+            dgwProduct.DataSource = productManager.GetAll();
         }
     }
 }
