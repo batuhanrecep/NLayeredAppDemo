@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Eastwind.DataAccess.Abstract;
@@ -10,19 +11,20 @@ namespace Eastwind.DataAccess.Concrete.EntityFramework
 {
     public class EfProductDal:IProductDal
     {
-        public List<Product> GetAll()
+
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
-            using (EastwindContext context=new EastwindContext())
+            using (EastwindContext context = new EastwindContext())
             {
                 return context.Products.ToList();
             }
         }
 
-        public Product Get(int id)
+        public Product Get(Expression<Func<Product, bool>> filter)
         {
             using (EastwindContext context = new EastwindContext())
             {
-                return context.Products.SingleOrDefault(p=>p.ProductId==id);
+                return context.Products.SingleOrDefault(filter);
             }
         }
 
