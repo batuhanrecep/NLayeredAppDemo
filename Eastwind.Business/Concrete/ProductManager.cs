@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Eastwind.Business.Abstract;
 using Eastwind.DataAccess.Abstract;
 using Eastwind.DataAccess.Concrete.EntityFramework;
 using Eastwind.Entities.Concrete;
 
 namespace Eastwind.Business.Concrete
 {
-    public class ProductManager
+    public class ProductManager:IProductService
     {
         //As a best practice, one layer should not use new statement for another 
 
