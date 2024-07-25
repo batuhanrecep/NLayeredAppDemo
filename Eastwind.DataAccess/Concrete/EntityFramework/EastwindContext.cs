@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Eastwind.Entities.Concrete;
 
-namespace Eastwind.DataAccess.Concrete
+namespace Eastwind.DataAccess.Concrete.EntityFramework
 {
     public class EastwindContext:DbContext
     {
