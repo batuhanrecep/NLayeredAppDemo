@@ -10,7 +10,7 @@ using Eastwind.Entities.Concrete;
 
 namespace Eastwind.Business.Concrete
 {
-    public class ProductManager:IProductService
+    public class ProductManager : IProductService
     {
         //As a best practice, one layer should not use new statement for another 
 
@@ -36,6 +36,29 @@ namespace Eastwind.Business.Concrete
         public List<Product> GetProductsByProductName(string productName)
         {
             return _productDal.GetAll(p => p.ProductName.ToLower().Contains(productName.ToLower()));
+        }
+
+        public void Add(Product product)
+        {
+            _productDal.Add(product);
+        }
+
+        public void Update(Product product)
+        {
+            _productDal.Update(product);
+        }
+
+        public void Delete(Product product)
+        {
+
+            try
+            {
+                _productDal.Delete(product);
+            }
+            catch 
+            {
+                throw new Exception("Update is not available for now");
+            }
         }
     }
 }
