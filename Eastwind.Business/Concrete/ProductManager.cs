@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Eastwind.Business.Abstract;
+using Eastwind.Business.Utilities;
+using Eastwind.Business.ValidationRules.FluentValidation;
 using Eastwind.DataAccess.Abstract;
 using Eastwind.DataAccess.Concrete.EntityFramework;
 using Eastwind.Entities.Concrete;
+using FluentValidation;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Eastwind.Business.Concrete
 {
@@ -40,11 +45,13 @@ namespace Eastwind.Business.Concrete
 
         public void Add(Product product)
         {
+            ValidationTool.Validate(new ProductValidator(), product);
             _productDal.Add(product);
         }
 
         public void Update(Product product)
         {
+            ValidationTool.Validate(new ProductValidator(), product);
             _productDal.Update(product);
         }
 

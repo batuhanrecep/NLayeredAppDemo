@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Eastwind.Business.Abstract;
 using Eastwind.Business.Concrete;
+using Eastwind.Business.DependencyResolvers.Ninject;
 using Eastwind.DataAccess.Concrete.EntityFramework;
 using Eastwind.DataAccess.Concrete.NHibernate;
 using Eastwind.Entities.Concrete;
@@ -22,8 +23,13 @@ namespace Eastwind.WebFormsUI
             InitializeComponent();
 
             //For solid principles, we should use dependency injection and DI containers for this
-            _productService = new ProductManager(new EfProductDal());
-            _categoryService = new CategoryManager(new EfCategoryDal());
+            //This is the version before dependency resolvers
+            //_productService = new ProductManager(new EfProductDal());
+            //_categoryService = new CategoryManager(new EfCategoryDal());
+
+            //With Ninject
+            _productService = InstanceFactory.GetInstance<IProductService>();
+            _categoryService = InstanceFactory.GetInstance<ICategoryService>();
         }
 
 
@@ -87,32 +93,46 @@ namespace Eastwind.WebFormsUI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            _productService.Add(new Product
+            try
             {
-                CategoryId = Convert.ToInt32(cbxCategoryId.SelectedValue),
-                ProductName = tbxProductNameAdd.Text,
-                QuantityPerUnit = tbxQuantityPerUnit.Text,
-                UnitPrice = Convert.ToDecimal(tbxUnitPrice.Text),
-                UnitsInStock = Convert.ToInt16(tbxStockAmount.Text)
-            });
-            MessageBox.Show("Product Added");
-            LoadProducts();
+                _productService.Add(new Product
+                {
+                    CategoryId = Convert.ToInt32(cbxCategoryId.SelectedValue),
+                    ProductName = tbxProductNameAdd.Text,
+                    QuantityPerUnit = tbxQuantityPerUnit.Text,
+                    UnitPrice = Convert.ToDecimal(tbxUnitPrice.Text),
+                    UnitsInStock = Convert.ToInt16(tbxStockAmount.Text)
+                });
+                MessageBox.Show("Product Added");
+                LoadProducts();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            _productService.Update(new Product
+            try
             {
-                ProductId = Convert.ToInt32(dgwProduct.CurrentRow.Cells[0].Value),
-                CategoryId = Convert.ToInt32(cbxCategoryUpdate.SelectedValue),
-                ProductName = tbxProductNameUpdate.Text,
-                QuantityPerUnit = tbxQuantityPerUnitUpdate.Text,
-                UnitPrice = Convert.ToDecimal(tbxUnitPriceUpdate.Text),
-                UnitsInStock = Convert.ToInt16(tbxStockAmountUpdate.Text)
+                _productService.Update(new Product
+                {
+                    ProductId = Convert.ToInt32(dgwProduct.CurrentRow.Cells[0].Value),
+                    CategoryId = Convert.ToInt32(cbxCategoryUpdate.SelectedValue),
+                    ProductName = tbxProductNameUpdate.Text,
+                    QuantityPerUnit = tbxQuantityPerUnitUpdate.Text,
+                    UnitPrice = Convert.ToDecimal(tbxUnitPriceUpdate.Text),
+                    UnitsInStock = Convert.ToInt16(tbxStockAmountUpdate.Text)
 
-            });
-            MessageBox.Show("Product Updated");
-            LoadProducts();
+                });
+                MessageBox.Show("Product Updated");
+                LoadProducts();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void dgwProduct_CellClick(object sender, DataGridViewCellEventArgs e)
