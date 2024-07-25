@@ -10,6 +10,8 @@ namespace Eastwind.Business.Concrete
 {
     public class ProductManager
     {
+        //As a best practice, one layer should not use new statement for another 
+        
         ProductDal _productDal = new ProductDal();
         public List<Product> GetAll()
         {
