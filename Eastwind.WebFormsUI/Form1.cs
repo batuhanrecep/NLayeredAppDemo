@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Eastwind.Business.Concrete;
+using Eastwind.DataAccess.Concrete.EntityFramework;
+using Eastwind.DataAccess.Concrete.NHibernate;
 
 namespace Eastwind.WebFormsUI
 {
@@ -19,8 +21,10 @@ namespace Eastwind.WebFormsUI
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
-            ProductManager productManager = new ProductManager();
+        { 
+            //ProductManager productManager = new ProductManager(new NhProductDal());
+            
+            ProductManager productManager = new ProductManager(new EfProductDal());
             dgwProduct.DataSource = productManager.GetAll();
         }
     }
