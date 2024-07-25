@@ -9,51 +9,8 @@ using Eastwind.Entities.Concrete;
 
 namespace Eastwind.DataAccess.Concrete.EntityFramework
 {
-    public class EfProductDal:IProductDal
+    public class EfProductDal:EfEntityRepositoryBase<Product,EastwindContext>, IProductDal
     {
 
-        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
-        {
-            using (EastwindContext context = new EastwindContext())
-            {
-                return context.Products.ToList();
-            }
-        }
-
-        public Product Get(Expression<Func<Product, bool>> filter)
-        {
-            using (EastwindContext context = new EastwindContext())
-            {
-                return context.Products.SingleOrDefault(filter);
-            }
-        }
-
-        public void Add(Product product)
-        {
-            using (EastwindContext context = new EastwindContext())
-            {
-                context.Products.Add(product);
-                context.SaveChanges();
-
-            }
-        }
-        public void Update(Product product)
-        {
-            using (EastwindContext context = new EastwindContext())
-            {
-                
-                context.SaveChanges();
-
-            }
-        }
-        public void Delete(Product product)
-        {
-            using (EastwindContext context = new EastwindContext())
-            {
-
-                context.SaveChanges();
-
-            }
-        }
     }
 }
